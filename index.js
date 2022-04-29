@@ -39,6 +39,13 @@ const run = async () => {
       res.send("inventory");
     });
 
+    // POST INVENTORY
+    app.post("/inventory", async (req, res) => {
+      const newInventory = req.body;
+      const result = await inventoryCollection.insertOne(newInventory);
+      res.send(result);
+    });
+
     console.log("db connection successful");
   } finally {
     // await client.close();
