@@ -33,8 +33,15 @@ const run = async () => {
 
     // GET INVENTORY
     app.get("/inventory", async (req, res) => {
-      const query = {};
-      const cursor = inventoryCollection.find(query);
+      const email = req.query.email;
+      const query = { email };
+      let cursor;
+      if (!email) {
+        cursor = inventoryCollection.find({});
+      } else {
+        cursor = inventoryCollection.find(query);
+      }
+
       const inventory = await cursor.toArray();
       res.send(inventory);
     });
