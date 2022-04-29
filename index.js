@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const res = require("express/lib/response");
 require("dotenv").config();
 
 const app = express();
@@ -24,6 +25,19 @@ const run = async () => {
     const inventoryCollection = client
       .db("sportsInventory")
       .collection("inventory");
+
+    // Home route
+    app.get("/", async (req, res) => {
+      res.send("welcome to sports inventory server");
+    });
+
+    // GET INVENTORY
+    app.get("/inventory", async (req, res) => {
+      const query = {};
+      const cursor = inventoryCollection.find(query);
+      const inventory = await cursor.toArray();
+      res.send("inventory");
+    });
 
     console.log("db connection successful");
   } finally {
