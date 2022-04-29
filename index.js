@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const res = require("express/lib/response");
 require("dotenv").config();
 
@@ -43,6 +43,14 @@ const run = async () => {
     app.post("/inventory", async (req, res) => {
       const newInventory = req.body;
       const result = await inventoryCollection.insertOne(newInventory);
+      res.send(result);
+    });
+
+    // DELETE INVENTORY
+    app.delete("/inventory/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await inventoryCollection.deleteOne(query);
       res.send(result);
     });
 
