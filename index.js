@@ -36,7 +36,7 @@ const run = async () => {
       const query = {};
       const cursor = inventoryCollection.find(query);
       const inventory = await cursor.toArray();
-      res.send("inventory");
+      res.send(inventory);
     });
 
     // POST INVENTORY
@@ -51,6 +51,30 @@ const run = async () => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await inventoryCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // UPDATE INVENTORY
+    app.put("/inventory/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedInventory = req.body;
+      const query = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          //  name: updatedInventory.name,
+          //  image: updatedInventory.img,
+          //  price: updatedInventory.price,
+          quantity: updatedInventory.quantity,
+          //  description: updatedInventory.description,
+          //  supplier: updatedInventory.supplier,
+        },
+      };
+      const result = await inventoryCollection.updateOne(
+        query,
+        updatedDoc,
+        options
+      );
       res.send(result);
     });
 
