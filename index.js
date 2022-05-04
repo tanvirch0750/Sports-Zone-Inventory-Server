@@ -97,7 +97,7 @@ const run = async () => {
       const options = { upsert: true };
       const updatedDoc = {
         $inc: {
-          quantity: 2,
+          quantity: +updatedQuantity.number,
         },
       };
       const result = await inventoryCollection.updateOne(
