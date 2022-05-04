@@ -69,7 +69,7 @@ const run = async () => {
       res.send(result);
     });
 
-    // UPDATE QUANTITY
+    // DELIVERED QUANTITY
     app.put("/inventory/delivered/:id", async (req, res) => {
       const id = req.params.id;
       // const updatedInventory = req.body;
@@ -78,6 +78,26 @@ const run = async () => {
       const updatedDoc = {
         $inc: {
           quantity: -1,
+        },
+      };
+      const result = await inventoryCollection.updateOne(
+        query,
+        updatedDoc,
+        options
+      );
+      res.send(result);
+    });
+
+    // STORED QUANTITY
+    app.put("/inventory/stored/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedQuantity = req.body;
+      console.log(updatedQuantity);
+      const query = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $inc: {
+          quantity: 2,
         },
       };
       const result = await inventoryCollection.updateOne(
