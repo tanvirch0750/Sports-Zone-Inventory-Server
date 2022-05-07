@@ -53,10 +53,12 @@ const run = async () => {
 
     // Auth
     app.post("/login", async (req, res) => {
+      res.header("Access-Control-Allow-Origin", "*");
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d",
       });
+
       res.send({ accessToken });
     });
 
