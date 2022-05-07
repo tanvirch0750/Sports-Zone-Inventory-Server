@@ -2,11 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const res = require("express/lib/response");
-const { verify } = require("jsonwebtoken");
 require("dotenv").config();
 
 const app = express();
-
 const port = process.env.PORT || 5000;
 
 // middlewares
@@ -63,23 +61,30 @@ const run = async () => {
     });
 
     // GET INVENTORY
-    app.get("/inventory", verifyJWT, async (req, res) => {
-      const decodedEmail = req.decoded.email;
+    app.get("/inventory", async (req, res) => {
       const email = req.query.email;
       const query = { email };
-      let cursor;
       if (!email) {
-        cursor = inventoryCollection.find({});
+        const cursor = inventoryCollection.find({});
+        const inventory = await cursor.toArray();
+        res.send(inventory);
       } else {
-        if (email === decodedEmail) {
-          cursor = inventoryCollection.find(query);
-        } else {
-          res.status(403).send({ message: "forbidden access" });
-        }
+        res.send({ message: "Unauthorized access" });
       }
+    });
 
-      const inventory = await cursor.toArray();
-      res.send(inventory);
+    app.get("/inventory/myItems", verifyJWT, async (req, res) => {
+      const decodedEmail = req.decoded.email;
+      const email = req.query.email;
+
+      if (email === decodedEmail) {
+        const query = { email };
+        const cursor = inventoryCollection.find(query);
+        const inventory = await cursor.toArray();
+        res.send(inventory);
+      } else {
+        res.status(403).send({ message: "forbidden access" });
+      }
     });
 
     // GET SINGLE INVENTORY
