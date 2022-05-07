@@ -74,6 +74,7 @@ const run = async () => {
       }
     });
 
+    // Get my inventories item
     app.get("/inventory/myItems", verifyJWT, async (req, res) => {
       const decodedEmail = req.decoded.email;
       const email = req.query.email;
