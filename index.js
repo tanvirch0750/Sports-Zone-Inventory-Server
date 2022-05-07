@@ -64,16 +64,23 @@ const run = async () => {
     // GET INVENTORY
     app.get("/inventory", async (req, res) => {
       const email = req.query.email;
-      const query = { email };
-      let cursor;
-      if (!email) {
-        cursor = inventoryCollection.find({});
-      } else {
-        cursor = inventoryCollection.find(query);
-      }
-
+      const cursor = inventoryCollection.find({});
       const inventory = await cursor.toArray();
       res.send(inventory);
+    });
+
+    app.get("/myItems", verifyJWT, async (req, res) => {
+      const decodedEmail = req.decoded.email;
+      const email = req.query.email;
+
+      if (email === decodedEmail) {
+        const query = { email };
+        const cursor = inventoryCollection.find(query);
+        const inventory = await cursor.toArray();
+        res.send(inventory);
+      } else {
+        res.status(403).send({ message: "forbidden access" });
+      }
     });
 
     // GET SINGLE INVENTORY
