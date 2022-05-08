@@ -160,7 +160,7 @@ const run = async () => {
       const updatedDoc = {
         $set: {
           name: updatedInventory.name,
-          image: updatedInventory.img,
+          image: updatedInventory.image,
           email: updatedInventory.email,
           price: updatedInventory.price,
           quantity: updatedInventory.quantity,
