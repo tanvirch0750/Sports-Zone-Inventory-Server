@@ -152,7 +152,7 @@ const run = async () => {
     });
 
     // UPDATE INVENTORY
-    app.put("/inventory/delivered/:id", async (req, res) => {
+    app.put("/inventory/:id", async (req, res) => {
       const id = req.params.id;
       const updatedInventory = req.body;
       const query = { _id: ObjectId(id) };
