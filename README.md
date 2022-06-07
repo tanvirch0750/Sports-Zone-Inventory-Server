@@ -1,7 +1,7 @@
 # Sports Zone Inventory : Server
 
 - Live website link [Sports Zone - Inventory](https://sports-zone-inventory.netlify.app/)
-- Client site github link [Sports Zone Client Github](https://github.com/ProgrammingHeroWC4/warehouse-management-client-side-tanvirch0750)
+- Client site github link [Sports Zone Client Github](https://github.com/tanvirch0750/Sports-Zone-Inventory---Client)
 - Server Side heroku link [Sports Zone Server Heroku](https://sheltered-dusk-40415.herokuapp.com/)
 
 ## Repository Description
